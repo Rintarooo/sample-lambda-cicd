@@ -1,0 +1,11 @@
+services:
+  lambda-local:
+    build:
+      context: .
+      target: runner-with-rie
+      dockerfile: docker/lambda/Dockerfile
+      platforms:
+        - linux/arm64
+    command: ./main
+    ports:
+      - "9000:8080"
