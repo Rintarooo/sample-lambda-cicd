@@ -9,3 +9,9 @@ tmp
 
 # AWS credentials
 .perman-aws-vault
+
+# Terraform
+**/.terraform/*
+
+*.tfstate
+*.tfstate.*
