@@ -1,0 +1,11 @@
+# common
+.idea
+dist
+downloads
+tmp
+.DS_Store
+.tags
+.env
+
+# AWS credentials
+.perman-aws-vault
