@@ -3,4 +3,6 @@ module "lambda" {
 
   project     = var.project
   environment = var.environment
+  architectures = var.architectures
 }
+
