@@ -8,6 +8,7 @@ on:
       - closed
     paths:
       - "infra/lambroll/**"
+      - "infra/terraform/**"
       - "lambda/src/**"
       - "docker/lambda/Dockerfile"
       - ".github/workflows/cd_lambda.yml"
