@@ -1,5 +1,5 @@
 services:
-  lambda-local:
+  lambda-rie:
     build:
       context: .
       target: runner-with-rie

@@ -1,14 +1,14 @@
 .PHONY: up
 up:
-	docker compose up lambda-local -d --build --force-recreate
+	docker compose up lambda-rie -d --build --force-recreate
 
 .PHONY: down
 down:
-	docker compose down lambda-local -v
+	docker compose down lambda-rie -v
 
 .PHONY: logs
 logs:
-	docker compose logs -f lambda-local
+	docker compose logs -f lambda-rie
 
 .PHONY: curl
 curl:
