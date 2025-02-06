@@ -13,7 +13,7 @@ resource "aws_iam_role" "lambda_role" {
       }
     ]
   })
-  
+
   tags = {
     Project     = var.project
     Environment = var.environment
