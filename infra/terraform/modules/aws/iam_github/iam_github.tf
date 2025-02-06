@@ -12,6 +12,12 @@ data "aws_iam_policy_document" "github_actions_oidc_trust_policy" {
 resource "aws_iam_role" "github_actions_oidc_role" {
   name               = local.github_actions_oidc_role_name
   assume_role_policy = data.aws_iam_policy_document.github_actions_oidc_trust_policy.json
+
+  tags = {
+    Project     = var.project
+    Environment = var.environment
+    ManagedBy   = "Terraform"
+  }
 }
 
 data "aws_iam_policy_document" "push_ecr" {
