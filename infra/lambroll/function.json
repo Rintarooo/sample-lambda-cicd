@@ -1,0 +1,30 @@
+{
+  "Architectures": ["arm64"],
+  "Code": {
+    "ImageUri": "{{ tfstate `module.lambda.aws_lambda_function.function.image_uri` }}"
+  },
+  "EphemeralStorage": {
+    "Size": 512
+  },
+  "FunctionName": "sample-lambda-cicd-dev-lambda",
+  "LoggingConfig": {
+    "LogFormat": "Text",
+    "LogGroup": "/aws/lambda/sample-lambda-cicd-dev-lambda"
+  },
+  "MemorySize": 128,
+  "PackageType": "Image",
+  "Role": "{{ tfstate `module.lambda.aws_iam_role.lambda_role.arn` }}",
+  "SnapStart": {
+    "ApplyOn": "None"
+  },
+  "Tags": {
+    "Environment": "dev",
+    "ManagedBy": "terraform",
+    "Name": "sample-lambda-cicd-dev-lambda",
+    "Project": "sample-lambda-cicd"
+  },
+  "Timeout": 30,
+  "TracingConfig": {
+    "Mode": "PassThrough"
+  }
+}
