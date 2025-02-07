@@ -15,8 +15,6 @@ on:
 env:
   PLATFORM: linux/arm64
   DOCKERFILE: docker/lambda/Dockerfile
-  AWS_REGION: ap-northeast-1
-  AWS_OIDC_ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/sample-lambda-cicd-dev-github-actions-oidc-role
 
 jobs:
   test-lambda:
@@ -47,12 +45,6 @@ jobs:
           key: ${{ github.ref }}-${{ github.sha }}
           restore-keys: |
             ${{ github.ref }}
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: ${{ env.AWS_OIDC_ROLE_ARN }}
 
       - name: Build Lambda Image
         uses: docker/build-push-action@v6
