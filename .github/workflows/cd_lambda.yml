@@ -23,7 +23,7 @@ env:
   AWS_ECR_REPOSITORY: sample-lambda-cicd-dev-lambda
   LAMBDA_FUNCTION_NAME: sample-lambda-cicd-dev-lambda
   LAMBROLL_FUNCTION_FILE: infra/lambroll/function.json
-  TFSTATE_URL: remote://app.terraform.io/RintaoooOrg/dev-lambda
+  TFSTATE_URL: remote://app.terraform.io/RintaroooOrg/dev-lambda
 
 jobs:
   build-and-push-image:
