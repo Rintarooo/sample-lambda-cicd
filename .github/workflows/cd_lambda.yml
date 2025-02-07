@@ -16,7 +16,7 @@ on:
 
 env:
   PLATFORM: linux/arm64
-  DOCKERFILE_PATH: docker/lambda/Dockerfile
+  DOCKERFILE: docker/lambda/Dockerfile
   AWS_REGION: ap-northeast-1
   AWS_OIDC_ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/sample-lambda-cicd-dev-github-actions-oidc-role
   AWS_ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com
@@ -62,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ${{ env.DOCKERFILE_PATH }}
+          file: ${{ env.DOCKERFILE }}
           push: true
           tags: ${{ env.AWS_ECR_REGISTRY }}/${{ env.AWS_ECR_REPOSITORY }}:${{ github.sha }}
           platforms: ${{ env.PLATFORM }}
