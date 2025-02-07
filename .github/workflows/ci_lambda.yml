@@ -1,0 +1,84 @@
+name: ci_lambda
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - "lambda/src/**"
+      - "lambda/test/**"
+      - "docker/lambda/**"
+      - ".github/workflows/ci_lambda.yml"
+
+env:
+  PLATFORM: linux/arm64
+  DOCKERFILE: docker/lambda/Dockerfile
+
+jobs:
+  test-lambda:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Add Mask
+        run: |
+          echo "::add-mask::${{ secrets.AWS_ACCOUNT_ID }}"
+
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ env.PLATFORM }}
+
+      - name: Setup Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker Layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            ${{ github.ref }}
+
+      - name: Build Lambda Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ env.DOCKERFILE }}
+          builder: ${{ steps.buildx.outputs.name }}
+          push: false
+          platforms: ${{ env.PLATFORM }}
+          target: runner-with-rie
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Up Lambda Container
+        run: docker compose up lambda-rie -d
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: lambda/test/go.mod
+          cache-dependency-path: lambda/test/go.sum
+
+      - name: Download Go modules
+        working-directory: ./lambda/test
+        run: go mod download
+
+      - name: Run Lambda test
+        working-directory: ./lambda/test
+        run: go test -v ./...
+
+      - name: Down Lambda Container
+        run: docker compose down lambda-rie -v
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
