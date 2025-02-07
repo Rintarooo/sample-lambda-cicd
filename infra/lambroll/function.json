@@ -1,7 +1,7 @@
 {
   "Architectures": ["arm64"],
   "Code": {
-    "ImageUri": "{{ tfstate `module.lambda.aws_ecr_repository.lambda_repository.repository_url` }}:{{ ssm (must_env `SSM_NAME_IMAGE_TAG`) }}"
+    "ImageUri": "{{ tfstate `module.lambda.aws_ecr_repository.lambda_repository.repository_url` }}:{{ ssm (must_env `AWS_SSM_NAME_IMAGE_TAG`) }}"
   },
   "EphemeralStorage": {
     "Size": 512
