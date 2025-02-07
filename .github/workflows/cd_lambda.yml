@@ -110,7 +110,7 @@ jobs:
       - name: Run lambroll diff
         run: |
           lambroll diff \
-            --file=${{ env.LAMBROLL_FILE }} \
+            --function=${{ env.LAMBROLL_FILE }} \
             --envfile=${{ env.LAMBROLL_ENV_FILE }} \
             --tfstate=${{ env.TFSTATE_URL }} \
             --color
@@ -118,7 +118,7 @@ jobs:
       - name: Deploy Lambda with lambroll
         run: |
           lambroll deploy \
-            --file=${{ env.LAMBROLL_FILE }} \
+            --function=${{ env.LAMBROLL_FILE }} \
             --envfile=${{ env.LAMBROLL_ENV_FILE }} \
             --tfstate=${{ env.TFSTATE_URL }} \
             --log-level=info
