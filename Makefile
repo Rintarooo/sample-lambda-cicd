@@ -10,6 +10,10 @@ down:
 logs:
 	docker compose logs -f lambda-rie
 
+.PHONY: test
+test:
+	cd lambda/test && go test -v ./...
+
 .PHONY: curl
 curl:
 	curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" \
