@@ -25,18 +25,13 @@ type Response struct {
 	Message string `json:"message"`
 }
 
-func newLambdaResponse(msg string, statusCode int) (events.APIGatewayProxyResponse, error) {
-	response := Response{
-		Message: msg,
-	}
-	body, _ := json.Marshal(response)
-
+func newLambdaResponse(body string, statusCode int) (events.APIGatewayProxyResponse, error) {
 	return events.APIGatewayProxyResponse{
 		StatusCode: statusCode,
 		Headers: map[string]string{
 			"Content-Type": "application/json",
 		},
-		Body: string(body),
+		Body: body,
 	}, nil
 }
 
@@ -45,7 +40,16 @@ func handler(ctx context.Context, req Request) (events.APIGatewayProxyResponse, 
 		return newLambdaResponse(err.Error(), http.StatusBadRequest)
 	}
 
-	return newLambdaResponse("Hello "+req.Name+" from Lambda!", http.StatusOK)
+	response := Response{
+		Message: "Hello " + req.Name + " from Lambda!",
+	}
+
+	body, err := json.Marshal(response)
+	if err != nil {
+		return newLambdaResponse(err.Error(), http.StatusInternalServerError)
+	}
+
+	return newLambdaResponse(string(body), http.StatusOK)
 }
 
 func main() {
