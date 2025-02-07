@@ -1,15 +1,15 @@
 {
   "Architectures": ["arm64"],
   "Code": {
-    "ImageUri": "{{ tfstate `module.lambda.aws_ecr_repository.lambda_repository.repository_url` }}:{{ ssm `/version/lambda/sample-lambda-cicd-dev-lambda` }}"
+    "ImageUri": "{{ tfstate `module.lambda.aws_ecr_repository.lambda_repository.repository_url` }}:{{ ssm (must_env `AWS_SSM_NAME_IMAGE_TAG`) }}"
   },
   "EphemeralStorage": {
     "Size": 512
   },
-  "FunctionName": "sample-lambda-cicd-dev-lambda",
+  "FunctionName": "{{ must_env `LAMBDA_FUNCTION_NAME` }}",
   "LoggingConfig": {
     "LogFormat": "Text",
-    "LogGroup": "/aws/lambda/sample-lambda-cicd-dev-lambda"
+    "LogGroup": "/aws/lambda/{{ must_env `LAMBDA_FUNCTION_NAME` }}"
   },
   "MemorySize": 128,
   "PackageType": "Image",
@@ -18,10 +18,10 @@
     "ApplyOn": "None"
   },
   "Tags": {
-    "Environment": "dev",
+    "Environment": "{{ must_env `ENV` }}",
     "ManagedBy": "terraform",
-    "Name": "sample-lambda-cicd-dev-lambda",
-    "Project": "sample-lambda-cicd"
+    "Name": "{{ must_env `LAMBDA_FUNCTION_NAME` }}",
+    "Project": "{{ must_env `PROJECT` }}"
   },
   "Timeout": 30,
   "TracingConfig": {
