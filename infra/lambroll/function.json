@@ -1,7 +1,7 @@
 {
   "Architectures": ["arm64"],
   "Code": {
-    "ImageUri": "{{ tfstate `module.lambda.aws_lambda_function.function.image_uri` }}"
+    "ImageUri": "{{ tfstate `module.lambda.aws_ecr_repository.lambda_repository.repository_url` }}:{{ ssm `/version/lambda/sample-lambda-cicd-dev-lambda` }}"
   },
   "EphemeralStorage": {
     "Size": 512
