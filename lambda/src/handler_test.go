@@ -1,4 +1,4 @@
-package test
+package main
 
 import (
 	"bytes"
@@ -8,10 +8,6 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 )
-
-type Request struct {
-	Name string `json:"name"`
-}
 
 func TestHandler(t *testing.T) {
 	tests := []struct {

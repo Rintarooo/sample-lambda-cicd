@@ -12,7 +12,7 @@ logs:
 
 .PHONY: test
 test:
-	cd lambda/test && go test -v ./...
+	cd lambda/src && go test -v ./...
 
 .PHONY: curl
 curl:
