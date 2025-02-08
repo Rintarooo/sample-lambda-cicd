@@ -8,7 +8,6 @@ on:
       - reopened
     paths:
       - "lambda/src/**"
-      - "lambda/test/**"
       - "docker/lambda/**"
       - ".github/workflows/ci_lambda.yml"
 
@@ -64,15 +63,15 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: lambda/test/go.mod
-          cache-dependency-path: lambda/test/go.sum
+          go-version-file: lambda/src/go.mod
+          cache-dependency-path: lambda/src/go.sum
 
       - name: Download Go modules
-        working-directory: ./lambda/test
+        working-directory: ./lambda/src
         run: go mod download
 
       - name: Run Lambda test
-        working-directory: ./lambda/test
+        working-directory: ./lambda/src
         run: go test -v ./...
 
       - name: Down Lambda Container
