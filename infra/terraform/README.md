@@ -18,11 +18,11 @@ $ terraform init
 ### plan
 
 ```bash
-$ perman-aws-vault exec terraform plan
+$ aws-vault exec terraform plan
 ```
 
 ### apply
 
 ```bash
-$ perman-aws-vault exec terraform apply --auto-approve
+$ aws-vault exec terraform apply --auto-approve
 ```
